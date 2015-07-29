@@ -1,2 +1,2 @@
 # sense-me
-Sentiment Analysis classifier from tweets &amp; visualisation.
+Tool for Sentiment analysis classifier&amp; visualisation from tweets.
