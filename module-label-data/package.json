@@ -2,13 +2,14 @@
   "name": "module-label-data",
   "version": "1.0.0",
   "description": "Web module to label training data for supervised learning",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "kref",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.3.4",
     "express": "^4.13.3",
     "morgan": "^1.6.1",
     "node-mysql": "^0.4.2"
