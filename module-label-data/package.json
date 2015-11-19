@@ -9,9 +9,11 @@
   "author": "kref",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "ejs": "^2.3.4",
     "express": "^4.13.3",
     "morgan": "^1.6.1",
-    "node-mysql": "^0.4.2"
+    "node-mysql": "^0.4.2",
+    "serve-favicon": "^2.3.0"
   }
 }
