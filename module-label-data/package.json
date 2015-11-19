@@ -1,0 +1,16 @@
+{
+  "name": "module-label-data",
+  "version": "1.0.0",
+  "description": "Web module to label training data for supervised learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kref",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "morgan": "^1.6.1",
+    "node-mysql": "^0.4.2"
+  }
+}
