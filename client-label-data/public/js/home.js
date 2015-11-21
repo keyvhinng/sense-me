@@ -10,7 +10,7 @@ jQuery(document).ready(function(){
 		dataJson = response.data;
 		$.each(response.data,function(key,val){
 			var $tr = $('<tr>').append(
-				$('<td>').text(val.status),
+				$('<td>').text(val.text),
 				$('<td>').append($("<button class='btn btnUpdate neg'>negativo</button>")),
 				$('<td>').append($("<button class='btn btnUpdate neu'>neutro</button>")),
 				$('<td>').append($("<button class='btn btnUpdate pos'>positivo</button>"))
@@ -41,7 +41,7 @@ jQuery(document).ready(function(){
 		}
 		var col_index = tweet.polarity + 2;
 		console.log(tweet);
-		urlPUT = 'http://localhost:3030/tweets/' + tweet.id;
+		urlPUT = 'http://localhost:3030/tweets/' + tweet.id_str;
 		$.ajax({
 			type: 'PUT',
 			data: tweet,
@@ -59,24 +59,6 @@ jQuery(document).ready(function(){
 			$('#dataTable tr:nth-child('+ row_index +
 								') td:nth-child(4) button').css('background-color','');
 			$(buttonSelector).css('background-color','#91C8EF');
-		});
-	});
-
-
-	//RELOAD
-	$("#btnSave").on('click',function(){
-		console.log("btn was clicked");
-		var tweet = {
-			'id' : 10,
-			'status' : 'new status 0'			
-		};
-		$.ajax({
-			type: 'PUT',
-			data: tweet,
-			dataType: 'JSON', 
-			url : '/tweets/3',
-		}).done(function(response){
-			console.log(response);
 		});
 	});
 });

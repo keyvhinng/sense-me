@@ -39,13 +39,9 @@ app.use(function(req, res, next) {
 app.set('view engine','ejs');
 
 app.get('/tweets',function(req,res){
-	connection.query('SELECT * from training_tweets LIMIT 10',function(err, rows, field){
+	connection.query('SELECT * from training_tweets where polarity is NULL LIMIT 10',function(err, rows, field){
 		if(!err){
-			//console.log('The solutions is: ', rows);
 			res.send({success: true, data : rows})
-			/*res.render('index',{
-				data : rows
-			});*/
 		}else{
 			console.log('Error while performing Query.');
 			console.log(err);
@@ -56,11 +52,11 @@ app.get('/tweets',function(req,res){
 
 app.put('/tweets/:id',function(req,res){
 	var queryString = 'UPDATE training_tweets set polarity=' + connection.escape(req.body.polarity)
-						+' WHERE id=' + '10';
+						+' WHERE id_str=' + connection.escape(req.body.id_str);
 	console.log('put received');
 	console.log(req.body);
-	console.log(req.body.id);
-	console.log(req.body.status);
+	console.log(req.body.id_str);
+	console.log(req.body.text);
 	console.log(queryString);
 	connection.query(queryString);
 	connection.commit(function(err){

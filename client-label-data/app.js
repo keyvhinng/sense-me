@@ -1,4 +1,5 @@
 var express = require('express');
+var favicon    = require('serve-favicon');
 var morgan     = require('morgan');
 var path       = require('path');
 
@@ -8,6 +9,7 @@ var app = express();
 
 app.use(morgan('dev'));
 app.use('/',express.static(path.join(__dirname,'public')));
+app.use(favicon(__dirname+'/public/images/ico.ico'));
 
 var server = app.listen(port,'127.0.0.1', function(){
 	var host = server.address();
