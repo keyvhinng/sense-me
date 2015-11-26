@@ -1,35 +1,77 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="/css/bootstrap.min.css">
-		<link rel="stylesheet" href="/css/main.css">
-		<script src="/js/jquery-2.1.4.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
-		<script src="/js/home.js"></script>
-	</head>
-	<body>
-		<div class='container'>	
-				<h1>Visualizacion de opiniones en Twitter</h1>
-				
-				<div class="col-md-4 form-group">
-					<label>Analizar tweets referentes a:</label>
-					<input type="text" class="form-control" id="term">
-				</div>
-				
-				<div class="col-md-12 text-center">
-					<a class ='btn btn-primary' href='/' id='btnSearch'> Buscar </a>
-				</div>
+<head>
+  <title></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/home.js"></script>
+</head>
+<body>
+<div class='container'>
 
-				<table class="table" id="dataTable">
-					<tr>
-						<th>Tweet</th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				</table>
-		</div>
-	</body>
+  <div class='col-md-12'>
+    <h1>Minería de opinión en Twitter</h1>
+  </div>
+  
+  <div class='col-md-12'>
+    <span>¿Qué hace?</span>
+    <p>
+      Herramienta para el análisis de polaridad de opiniones que fueron vertidas en la plataforma Twitter. A partir de la consulta de un término, se indica cuantas opiniones (previamente recolectadas y clasificadas por su polaridad) tuvieron connotación negativa, neutra y positiva. Además, se exibe un subconjunto de las publicaciones analizadas (hasta un máximo de 50 elementos).
+    </p>
+
+    <span>¿Cómo lo hace?</span>
+    <p>
+      Se utlilizan técnicas de aprendizaje de máquinas para la categorización de textos. Específcamente, se entrena un clasificador SVM a partir de un conjunto de datos previamente etiquetados. La búsqueda se realiza a partir de la indexación de los términos encontrados en las publicaciones analizadas.
+    </p>  
+    <hr>
+    <span>Uso</span>
+    <form class="form-inline" role="form">
+      <div class="form-group">
+        <label for="text">Tema:</label>
+        <input type="text" class="form-control" id="term">
+      </div>
+      <button type="submit" class="btn btn-primary" id="btnSearch">Buscar</button>
+    </form>
+  </div>
+
+  <div class="col-md-12 chart">    
+      <h1>Resultados</h1>
+      <div class="charts--container" id="pieChart">
+        <h2 class="chart--headline">Percepción sobre: 'Wong'</h2>
+        <svg id="pieChartSVG">
+          <defs>
+            <filter id='pieChartInsetShadow'>
+              <feOffset dx='0' dy='0'/>
+              <feGaussianBlur stdDeviation='3' result='offset-blur' />
+              <feComposite operator='out' in='SourceGraphic' in2='offset-blur' result='inverse' />
+              <feFlood flood-color='black' flood-opacity='1' result='color' />
+              <feComposite operator='in' in='color' in2='inverse' result='shadow' />
+              <feComposite operator='over' in='shadow' in2='SourceGraphic' />
+            </filter>
+            <filter id="pieChartDropShadow">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+              <feOffset in="blur" dx="0" dy="3" result="offsetBlur" />
+              <feMerge>
+                <feMergeNode />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </div>
+  </div>
+  <table class="table" id="dataTable">
+          <tr>
+            <th>Tweet</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </table>
+</div>
+</body>
 </html>
