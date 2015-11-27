@@ -9,13 +9,7 @@ body {
   font-weight: 100;
   background-size: 4px 4px;
 }
-body ul {
-  list-style: none;
-}
-body ul, body li {
-  margin: 0;
-  padding: 0;
-}
+
 
 .chart {
   min-height: 400px;
@@ -199,4 +193,26 @@ h1{
 span{
   font-size: 1.5em;
   font-weight: bold;
+}
+
+li span{
+  font-size: 1em;
+  font-weight: bold;
+}
+
+p span{
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.opinion--neg{
+  background-color: #d79d91;
+}
+
+.opinion--neu{
+  background-color: #778899;
+}
+
+.opinion--pos{
+  background-color: #6bb7c7;
 }

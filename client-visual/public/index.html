@@ -32,7 +32,7 @@
     <form class="form-inline" role="form">
       <div class="form-group">
         <label for="text">Tema:</label>
-        <input type="text" class="form-control" id="term">
+        <input type="text" class="form-control" id="termQuery">
       </div>
       <button type="submit" class="btn btn-primary" id="btnSearch">Buscar</button>
     </form>
@@ -41,7 +41,7 @@
   <div class="col-md-12 chart">    
       <h1>Resultados</h1>
       <div class="charts--container" id="pieChart">
-        <h2 class="chart--headline">Percepción sobre: 'Wong'</h2>
+        <h2 class="chart--headline">Percepción sobre: <span id="aboutTerm"></span></h2>
         <svg id="pieChartSVG">
           <defs>
             <filter id='pieChartInsetShadow'>
@@ -64,11 +64,19 @@
         </svg>
       </div>
   </div>
+  <p>Cantidad de tweets encontrados: <span id="nTotalTweets"></span></p>
+  <ul>
+    <li>Cantidad de tweets positivos: <span id="nPosTweets"></span></li>
+  </ul>
+  <ul>
+    <li>Cantidad de tweets neutros: <span id="nNeuTweets"></span></li>
+  </ul>
+  <ul>
+    <li>Cantidad de tweets negativos: <span id="nNegTweets"></span></li>
+  </ul>
   <table class="table" id="dataTable">
           <tr>
             <th>Tweet</th>
-            <th></th>
-            <th></th>
             <th></th>
           </tr>
         </table>

@@ -1,44 +1,32 @@
-console.log('outside');
-var da = Math.random();
-var db = Math.random()*(1-da);
-var dc = 1 - (da+db);
-
-console.log('da :' + da);
-console.log('db :' + db);
-console.log('dc :' + dc);
-
 var data;
 
-function pullData(){
-var da = Math.random();
-var db = Math.random()*(1-da);
-var dc = 1 - (da+db);
+function buildPieData(da,db,dc){
 
-console.log('da :' + da);
-console.log('db :' + db);
-console.log('dc :' + dc);
+  console.log('da :' + da);
+  console.log('db :' + db);
+  console.log('dc :' + dc);
 
-data = {
-    pieChart  : [
-      {
-        color       : 'red',
-        description : 'Negativo',
-        title       : 'Negativo',
-        value       : da
-      },
-      {
-        color       : 'gray',
-        description : 'Neutro',
-        title       : 'Neutro',
-        value       : db
-      },
-      {
-        color       : 'blue',
-        description : 'Positivo',
-        title       : 'Positivo',
-        value       : dc
-      }
-    ]
+  data = {
+      pieChart  : [
+        {
+          color       : 'red',
+          description : 'Negativo',
+          title       : 'Negativo',
+          value       : da
+        },
+        {
+          color       : 'gray',
+          description : 'Neutro',
+          title       : 'Neutro',
+          value       : db
+        },
+        {
+          color       : 'blue',
+          description : 'Positivo',
+          title       : 'Positivo',
+          value       : dc
+        }
+      ]
   };
 };
 
@@ -50,7 +38,6 @@ function drawPieChart( elementId, data ) {
 
     var containerEl = document.getElementById(elementId);
     var width       = containerEl.clientWidth;
-    console.log("containerEl.clientWidth "+containerEl.clientWidth);
     var height      = width * 0.5 ,
         radius      = 0.6*Math.min( width, height ) / 2,
         container   = d3.select( containerEl ),
@@ -201,10 +188,45 @@ jQuery(document).ready(function(){
   
   $(document).on('click','#btnSearch',function(){
     console.log('Button pressed');
-    $('.pieChart--detailedInformation').remove();
-    $('.pieChart--g').remove();
-    pullData();
-    drawPieChart('pieChart', data.pieChart);
+    var term = $('#termQuery').val();
+    console.log(term);
+    
+    urlGET = 'http://localhost:4030/opinions/' + term;
+    $.ajax({ 
+      url : urlGET,
+    }).done(function(response){
+      console.log(response.data);
+      $('.pieChart--detailedInformation').remove();
+      $('.pieChart--g').remove();
+      buildPieData(response.rnegative,response.rneutral,response.rpositive);
+      drawPieChart('pieChart', data.pieChart);
+
+      $('.opinion--neg').remove();
+      $('.opinion--neu').remove();
+      $('.opinion--pos').remove();
+
+      var className = ""
+      $.each(response.data,function(key,val){
+        console.log(val.polarity);
+        if(val.polarity==0){
+          className = "opinion--neg";
+        }else if(val.polarity==1){
+          className = "opinion--neu";
+        }else{
+          className = "opinion--pos";
+        }
+        var $tr = $('<tr class="'+className+'">').append(
+          $('<td>').text(val.text)
+        ).appendTo('#dataTable');
+      });
+      $('#aboutTerm').text(term);
+      $('#nTotalTweets').text(response.total);
+      $('#nPosTweets').text(response.npositive);
+      $('#nNeuTweets').text(response.nneutral);
+      $('#nNegTweets').text(response.nnegative);
+      return false;
+    });
     return false;
   });
+
 });
