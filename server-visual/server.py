@@ -10,7 +10,7 @@ print('--[Building indexation]--')
 ind = {}
 opinions = []
 polarities = []
-cur.execute("SELECT text, polarity FROM training_tweets")
+cur.execute("SELECT text, polarity FROM tweets")
 rows = cur.fetchall()
 counter = 0
 for row in rows:

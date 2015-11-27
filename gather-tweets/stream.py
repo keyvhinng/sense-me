@@ -4,9 +4,13 @@ import MySQLdb
 import os
 import sys
 import time
+import warnings
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+
+
+warnings.filterwarnings('ignore')
 
 configParser = ConfigParser.RawConfigParser()
 configFilePath = r'variables.cfg'
@@ -19,7 +23,10 @@ access_token = configParser.get('keys','access_token')
 access_token_secret = configParser.get('keys','access_token_secret')
 
 
-insert_sql = "INSERT INTO training_tweets (id_str, text, created_at) VALUES (%s,%s,%s)"
+insert_sql = "INSERT INTO training_tweets (id_str, text, created_at) VALUES (%s,%s,%s)" 
+
+if len(sys.argv) == 2 and sys.argv[1]=="--predict":
+    insert_sql = "INSERT INTO tweets (id_str, text, created_at) VALUES (%s,%s,%s)"
 
 class StdOutListener(StreamListener):
 
@@ -31,7 +38,6 @@ class StdOutListener(StreamListener):
             cur.execute(insert_sql,(status.id_str,status.text, status.created_at.strftime('%Y-%m-%d %H:%M:%S')))
             con.commit()
             
-
     def on_error(self, status):
         print("ERROR")
 
