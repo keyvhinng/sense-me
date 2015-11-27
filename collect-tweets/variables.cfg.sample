@@ -1,0 +1,6 @@
+[keys]
+consumer_key = <your-key-w/o-parenthesis>
+consumer_secret = <your-key-w/o-parenthesis>
+
+access_token = <your-key-w/o-parenthesis>
+access_token_secret = <your-key-w/o-parenthesis>
