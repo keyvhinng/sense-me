@@ -7,5 +7,5 @@ Given an input term, the tools shows ratios of negative, neutral & positive opin
 ## How does it do?
 Machine learning (supervised learning) & Text classification (opinion classification) techniques were applied. Especifically, this tools uses SVM classifier from Scikit-learn.
 
-Author: Keyvhinng Espinoza
+Author: Keyvhinng Espinoza <br/>
 contact: espinoza.k at pucp.edu.pe
