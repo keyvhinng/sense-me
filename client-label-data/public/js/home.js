@@ -1,12 +1,9 @@
 jQuery(document).ready(function(){
-
 	console.log('document is ready');
+	var server = 'http://52.27.158.94';
 	var dataJson;
-
-	$.getJSON('http://localhost:3030/tweets', function(response){
-		//console.log(response);
-
-		//var button = $('<button>negativo</button>');
+	var urlGET = server + ':3030/tweets';
+	$.getJSON(urlGET, function(response){
 		dataJson = response.data;
 		$.each(response.data,function(key,val){
 			var $tr = $('<tr>').append(
@@ -21,7 +18,6 @@ jQuery(document).ready(function(){
 	//UPDATE
 	$(document).on('click','.btnUpdate',function(){
 		var row_index = $(this).parent().parent().index() + 1;
-		console.log($(this).attr('class'));
 		var tweet = dataJson[row_index-2];
 		switch($(this).attr('class')){
 			case "btn btnUpdate neg":
@@ -41,7 +37,7 @@ jQuery(document).ready(function(){
 		}
 		var col_index = tweet.polarity + 2;
 		console.log(tweet);
-		urlPUT = 'http://localhost:3030/tweets/' + tweet.id_str;
+		urlPUT = server +':3030/tweets/' + tweet.id_str;
 		$.ajax({
 			type: 'PUT',
 			data: tweet,

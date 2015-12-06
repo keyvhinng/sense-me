@@ -27,6 +27,7 @@ insert_sql = "INSERT INTO training_tweets (id_str, text, created_at) VALUES (%s,
 
 if len(sys.argv) == 2 and sys.argv[1]=="--predict":
     insert_sql = "INSERT INTO tweets (id_str, text, created_at) VALUES (%s,%s,%s)"
+    print('--[Tweets for prediction]--')
 
 class StdOutListener(StreamListener):
 
@@ -34,7 +35,8 @@ class StdOutListener(StreamListener):
         if status.place.country_code=="PE" and status.lang=="es":
             print("----------------------------")
             print('[Guardando tweet]:')
-            print(status.text)
+            print(status.lang)
+            print(status.text.encode('utf8'))
             cur.execute(insert_sql,(status.id_str,status.text, status.created_at.strftime('%Y-%m-%d %H:%M:%S')))
             con.commit()
             
