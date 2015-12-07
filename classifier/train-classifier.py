@@ -4,6 +4,7 @@ import MySQLdb
 import nltk
 import numpy
 import os
+import re
 import sys
 from sklearn.externals import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -29,14 +30,23 @@ print('Corpus\'s size: ' + str(len(X)))
 words_ind = {}
 stopwords = nltk.corpus.stopwords.words('spanish')
 print(type(stopwords))
+counter = 0
 for opinion in X:
   words = opinion.split()
-  print(words)
+  for word in words:
+    #print('analyzing ' + word)
+    if word not in words_ind:
+      words_ind[word] = counter
+      counter += 1
+
 tfidVectorizer = TfidfVectorizer(stop_words=stopwords)
 analyzer = tfidVectorizer.build_analyzer()
 #print(analyzer(u'hola el carro esta vacio'))
 X_train_tf = tfidVectorizer.fit_transform(X)
-print(X_train.shape)
+#for sz in tfidVectorizer.get_feature_names():
+#  print(sz)
+#print(tfidVectorizer.get_feature_names())
+print(X_train_tf.shape)
 
 #CLASIFICATION
 print('--[Training Classifier]--')
@@ -50,4 +60,4 @@ print('Saving clasifier')
 
 vec_clf = Pipeline([('tfvec',tfidVectorizer),('svm',classifier)])
 
-joblib.dump(vec_clf,"classifier.pkl")
+#joblib.dump(vec_clf,"classifier.pkl")
