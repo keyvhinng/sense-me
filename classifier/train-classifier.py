@@ -1,4 +1,3 @@
-import chardet
 import csv
 import MySQLdb
 import nltk
@@ -41,7 +40,7 @@ for opinion in X:
 
 tfidVectorizer = TfidfVectorizer(stop_words=stopwords)
 analyzer = tfidVectorizer.build_analyzer()
-#print(analyzer(u'hola el carro esta vacio'))
+#print(analyzer(u'#hola @el, .carro: \u064B esta vacio'))
 X_train_tf = tfidVectorizer.fit_transform(X)
 #for sz in tfidVectorizer.get_feature_names():
 #  print(sz)
