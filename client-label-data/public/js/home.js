@@ -21,39 +21,35 @@ jQuery(document).ready(function(){
 		var tweet = dataJson[row_index-2];
 		switch($(this).attr('class')){
 			case "btn btnUpdate neg":
-				console.log("0");
 				tweet.polarity = 0;
 				break;
 			case "btn btnUpdate neu":
-				console.log("1");
 				tweet.polarity = 1;
 				break;
 			case "btn btnUpdate pos":
-				console.log("2");
 				tweet.polarity = 2;
 				break;
 			default:
 				break;
 		}
-		var col_index = tweet.polarity + 2;
 		console.log(tweet);
 		urlPUT = server +':3030/tweets/' + tweet.id_str;
 		$.ajax({
 			type: 'PUT',
 			data: tweet,
-			dataType: 'JSON', 
+			dataType: 'JSON',
 			url : urlPUT,
 		}).done(function(response){
-			var buttonSelector = '#dataTable tr:nth-child('+ row_index +
-								') td:nth-child('+ col_index +') button';
 			console.log(response);
-			
 			$('#dataTable tr:nth-child('+ row_index +
 								') td:nth-child(2) button').css('background-color','');
 			$('#dataTable tr:nth-child('+ row_index +
 								') td:nth-child(3) button').css('background-color','');
 			$('#dataTable tr:nth-child('+ row_index +
 								') td:nth-child(4) button').css('background-color','');
+      var col_index = tweet.polarity + 2;
+      var buttonSelector = '#dataTable tr:nth-child('+ row_index +
+          								') td:nth-child('+ col_index +') button';
 			$(buttonSelector).css('background-color','#91C8EF');
 		});
 	});

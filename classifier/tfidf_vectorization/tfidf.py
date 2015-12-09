@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import array
@@ -33,9 +34,9 @@ class tfidTransformer():
         X = X * self._idf_diag
         return X
 
-class tfidfVectorizer():
+class TfidfVectorizer():
 
-    def __init__(self):
+    def __init__(self,stop_words=None):
         self.fixed_vocabulary_ = False
         self.token_pattern = r"(?u)\b\w\w+\b"
         self.strip_accents = None
@@ -44,9 +45,12 @@ class tfidfVectorizer():
         self.dtype = np.float64
         self.smooth_idf = True
         self._tfidf = tfidTransformer()
+        self.stop_words = stop_words
 
     def decode(self, doc):
-        doc = doc.decode(self.encoding, self.decode_error)
+        if isinstance(doc, bytes):
+            print("isinstance")
+            doc = doc.decode(self.encoding, self.decode_error)
         return doc
 
     def _count_vocab(self, raw_documents, fixed_vocab):

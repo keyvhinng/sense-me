@@ -6,11 +6,14 @@ import os
 import re
 import sys
 from sklearn.externals import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
+#from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn import metrics
 from time import time
+
+sys.path.append("./tfidf_vectorization")
+from tfidf import TfidfVectorizer
 
 #DATABASE
 print('--[Creating corpus from Database]--')
@@ -26,18 +29,7 @@ for row in rows:
 print('Corpus\'s size: ' + str(len(X)))
 
 #VECTORIZATION
-words_ind = {}
 stopwords = nltk.corpus.stopwords.words('spanish')
-print(type(stopwords))
-counter = 0
-for opinion in X:
-  words = opinion.split()
-  for word in words:
-    #print('analyzing ' + word)
-    if word not in words_ind:
-      words_ind[word] = counter
-      counter += 1
-
 tfidVectorizer = TfidfVectorizer(stop_words=stopwords)
 analyzer = tfidVectorizer.build_analyzer()
 #print(analyzer(u'#hola @el, .carro: \u064B esta vacio'))
@@ -53,10 +45,9 @@ classifier = LinearSVC()
 classifier.fit(X_train_tf,label)
 #predicted = classifier.predict(tfidVectorizer.transform(X_train).toarray())
 predicted = classifier.predict(tfidVectorizer.transform(X).toarray())
-print(predicted[0:10])
-print('Accuracy: ' + str(numpy.mean(predicted == label)))
+
+#print('Accuracy: ' + str(numpy.mean(predicted == label)))
+
 print('Saving clasifier')
-
 vec_clf = Pipeline([('tfvec',tfidVectorizer),('svm',classifier)])
-
-#joblib.dump(vec_clf,"classifier.pkl")
+joblib.dump(vec_clf,"classifier.pkl")

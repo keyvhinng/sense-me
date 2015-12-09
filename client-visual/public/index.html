@@ -16,7 +16,7 @@
   <div class='col-md-12'>
     <h1>Minería de opinión en Twitter</h1>
   </div>
-  
+
   <div class='col-md-12'>
     <span>¿Qué hace?</span>
     <p>
@@ -26,7 +26,7 @@
     <span>¿Cómo lo hace?</span>
     <p>
       Se utlilizan técnicas de aprendizaje de máquinas para la categorización de textos. Específcamente, se entrena un clasificador SVM a partir de un conjunto de datos previamente etiquetados. La búsqueda se realiza a partir de la indexación de los términos encontrados en las publicaciones analizadas.
-    </p>  
+    </p>
     <hr>
     <span>Uso</span>
     <form class="form-inline" role="form">
@@ -38,8 +38,11 @@
     </form>
   </div>
 
-  <div class="col-md-12 chart">    
+  <div class="col-md-12 chart">
       <h1>Resultados</h1>
+      <div class="alert alert-warning invisible">
+        <strong>Alerta!</strong> Término no indexado
+      </div>
       <div class="charts--container" id="pieChart">
         <h2 class="chart--headline">Percepción sobre: <span id="aboutTerm"></span></h2>
         <svg id="pieChartSVG">

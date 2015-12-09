@@ -6,7 +6,6 @@ var morgan     = require('morgan');
 var mysql      = require('mysql');
 var path       = require('path');
 
-
 //DATABASE
 var connection = mysql.createConnection({
 	host    : 'localhost',
@@ -16,12 +15,9 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
-
-
 //WEBSERVER
 var testMode = false;
 var port = 3030;
-
 var app = express();
 
 app.use(morgan('dev'));
@@ -53,10 +49,6 @@ app.get('/tweets',function(req,res){
 app.put('/tweets/:id',function(req,res){
 	var queryString = 'UPDATE training_tweets set polarity=' + connection.escape(req.body.polarity)
 						+' WHERE id_str=' + connection.escape(req.body.id_str);
-	console.log('-----------------------------');
-	console.log('put received');
-	console.log(req.body.id_str);
-	console.log(req.body.text);
 	connection.query(queryString);
 	connection.commit(function(err){
 		if(err){
@@ -77,4 +69,3 @@ process.on('SIGINT',function(){
 	connection.end();
 	process.exit();
 });
-

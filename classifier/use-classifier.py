@@ -1,7 +1,11 @@
+import sys
 import MySQLdb
 from sklearn.externals import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
+#from sklearn.feature_extraction.text import TfidfVectorizer
+sys.path.append("./tfidf_vectorization")
+from tfidf import TfidfVectorizer
+
 
 classifier = joblib.load('classifier.pkl')
 print('[Success loading classifier]')
@@ -21,4 +25,3 @@ with con:
     print('-------------')
     cur.execute(query_update,(predicted,row[0]))
     con.commit()
-    

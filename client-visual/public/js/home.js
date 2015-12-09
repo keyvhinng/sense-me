@@ -52,7 +52,7 @@ function drawPieChart( elementId, data ) {
                 .attr(
                   'class',
                   'pieChart--g');
-    
+
     var detailedInfo = svg.append( 'g' )
                           .attr( 'class', 'pieChart--detailedInformation' );
 
@@ -65,7 +65,7 @@ function drawPieChart( elementId, data ) {
                     .innerRadius( 0 );
 
     var counterPieces = 0;
-    
+
     var pieChartPieces = pie.datum( data )
                             .selectAll( 'path' )
                             .data( pieData )
@@ -77,29 +77,29 @@ function drawPieChart( elementId, data ) {
                             .attr( 'filter', 'url(#pieChartInsetShadow)' )
                             .attr( 'd', arc )
                             .each( function() {
-                              this._current = { startAngle: 0, endAngle: 0 }; 
+                              this._current = { startAngle: 0, endAngle: 0 };
                             } )
                             .transition()
                             .duration( DURATION )
                             .attrTween( 'd', function( d ) {
                               var interpolate = d3.interpolate( this._current, d );
                               this._current = interpolate( 0 );
-                    
+
                               return function( t ) {
                                 return arc( interpolate( t ) );
                               };
                             } )
                             .each( 'end', function handleAnimationEnd( d ) {
-                              drawDetailedInformation( d.data, this, counterPieces); 
+                              drawDetailedInformation( d.data, this, counterPieces);
                               counterPieces++;
                             } );
 
-    drawChartCenter(); 
-    
+    drawChartCenter();
+
     function drawChartCenter() {
       var centerContainer = pie.append( 'g' )
                                 .attr( 'class', 'pieChart--center' );
-      
+
       centerContainer.append( 'circle' )
                       .attr( 'class', 'pieChart--center--outerCircle' )
                       .attr( 'r', 0 )
@@ -108,7 +108,7 @@ function drawPieChart( elementId, data ) {
                       .duration( DURATION )
                       .delay( DELAY )
                       .attr( 'r', radius - 50 );
-      
+
       centerContainer.append( 'circle' )
                       .attr( 'id', 'pieChart-clippy' )
                       .attr( 'class', 'pieChart--center--innerCircle' )
@@ -119,7 +119,7 @@ function drawPieChart( elementId, data ) {
                       .attr( 'r', radius - 60 )
                       .attr( 'fill', '#fff' );
     }
-    
+
     function drawDetailedInformation ( data, element, ind ) {
       var bBox      = element.getBBox(),
           infoWidth = width * 0.25,
@@ -157,7 +157,7 @@ function drawPieChart( elementId, data ) {
                         this.textContent = i( t ) + ' %';
                       };
                     } );
-      
+
       infoContainer.append( 'line' )
                     .attr( 'class', 'pieChart--detail--divider' )
                     .attr( 'x1', 0 )
@@ -167,10 +167,10 @@ function drawPieChart( elementId, data ) {
                     .transition()
                     .duration( DURATION )
                     .attr( 'x2', infoWidth );
-      
-      infoContainer.data( [ data.description ] ) 
+
+      infoContainer.data( [ data.description ] )
                     .append( 'foreignObject' )
-                    .attr( 'width', infoWidth ) 
+                    .attr( 'width', infoWidth )
                     .attr( 'height', 40 )
                     .append( 'xhtml:body' )
                     .attr(
@@ -185,17 +185,28 @@ function drawPieChart( elementId, data ) {
 
 jQuery(document).ready(function(){
 	console.log('document is ready');
-  
+  var server = 'http://52.27.158.94';
   $(document).on('click','#btnSearch',function(){
-    console.log('Button pressed');
     var term = $('#termQuery').val();
     console.log(term);
-    
-    urlGET = 'http://localhost:4030/opinions/' + term;
-    $.ajax({ 
+
+    urlGET = server + ':4030/opinions/search';
+    $.ajax({
+      type: 'GET',
+      data: {'term':term},
+      dataType: 'JSON',
       url : urlGET,
     }).done(function(response){
       console.log(response.data);
+      if(!response.success){
+        console.log("not")
+        $(".alert").removeClass('invisible');
+        $('#aboutTerm').text('');
+      }else{
+        console.log("yes")
+        $(".alert").addClass('invisible');
+        $('#aboutTerm').text(term);
+      }
       $('.pieChart--detailedInformation').remove();
       $('.pieChart--g').remove();
       buildPieData(response.rnegative,response.rneutral,response.rpositive);
@@ -219,7 +230,7 @@ jQuery(document).ready(function(){
           $('<td>').text(val.text)
         ).appendTo('#dataTable');
       });
-      $('#aboutTerm').text(term);
+
       $('#nTotalTweets').text(response.total);
       $('#nPosTweets').text(response.npositive);
       $('#nNeuTweets').text(response.nneutral);
